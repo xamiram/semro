@@ -1,0 +1,61 @@
+{
+  "version": 2,
+  "name": "api-gateway",
+  "regions": ["iad1", "sfo1"],
+  "functions": {
+    "api/**/*.js": {
+      "maxDuration": 10
+    }
+  },
+  "rewrites": [
+    { 
+      "source": "/health", 
+      "destination": "/api/health" 
+    },
+    { 
+      "source": "/api/:path*", 
+      "destination": "/api/:path*" 
+    },
+    { 
+      "source": "/:path*", 
+      "destination": "/api/index" 
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=(), camera=()"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=60, s-maxage=120"
+        }
+      ]
+    }
+  ],
+  "trailingSlash": false
+}
