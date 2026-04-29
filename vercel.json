@@ -1,7 +1,6 @@
 {
   "version": 2,
   "name": "api-gateway",
-  "regions": ["iad1", "sfo1"],
   "functions": {
     "api/**/*.js": {
       "maxDuration": 10
